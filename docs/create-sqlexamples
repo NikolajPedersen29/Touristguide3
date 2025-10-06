@@ -1,0 +1,24 @@
+-- Indsætter eksempler på tags
+INSERT INTO Tag (name) VALUES
+('Historisk'),
+('Kultur'),
+('Udendørs'),
+('Familievenlig'),
+('Berømt');
+
+-- Indsætter eksempler på turistattraktioner
+INSERT INTO TouristAttraction (name, description, city) VALUES
+('Tivoli', 'En berømt forlystelsespark i hjertet af København.', 'København'),
+('Den Lille Havfrue', 'En ikonisk statue baseret på H.C. Andersens eventyr.', 'København'),
+('Rundetårn', 'En høj bygning i hjertet af København', 'København');
+
+-- Indsætter relationer mellem attraktioner og tags
+INSERT INTO AttractionTag (attraction_id, tag_id) VALUES
+(1, 1), -- Tivoli er historisk
+(1, 4), -- Tivoli er familievenlig
+(1, 3), -- Tivoli er udendørs
+(2, 1), -- Den Lille Havfrue er historisk
+(2, 2), -- Den Lille Havfrue er kulturel
+(2, 5), -- Den Lille Havfrue er berømt
+(3, 1); -- Rundetårn er historisk
+(3, 5); -- Rundetårn er berømt
