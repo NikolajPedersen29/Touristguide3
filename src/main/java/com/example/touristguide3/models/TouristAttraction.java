@@ -2,6 +2,7 @@ package com.example.touristguide3.models;
 
 import jakarta.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tourist_attraction")
@@ -33,6 +34,7 @@ public class TouristAttraction {
         this.city = city;
         this.tags = tags;
     }
+
 
     // Getters & Setters
     public Long getId() { return id; }

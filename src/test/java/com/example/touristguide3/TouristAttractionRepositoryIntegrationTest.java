@@ -1,6 +1,8 @@
 package com.example.touristguide3;
 
 import com.example.touristguide3.models.TouristAttraction;
+import com.example.touristguide3.models.City;
+import com.example.touristguide3.models.Tags;
 import com.example.touristguide3.repository.TouristAttractionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,12 @@ public class TouristAttractionRepositoryIntegrationTest {
 
     @Test
     void testAddAttraction() {
-        TouristAttraction newAttraction = new TouristAttraction("Zoo", "Dyr og sjov", null, List.of());
+        TouristAttraction newAttraction = new TouristAttraction(
+                "Tivoli",
+                "Forlystelsespark",
+                City.København,
+                List.of(Tags.Børnevenlig, Tags.Kunst)
+        );
         repository.addAttraction(newAttraction);
         assertThat(repository.getAllAttractions()).contains(newAttraction);
     }
