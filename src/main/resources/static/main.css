@@ -1,0 +1,108 @@
+/* Basis styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 50px;
+    padding: 20px;
+    color: #074bc7;
+    font-size: 0.9rem;
+}
+
+h1 {
+    font-family:Arial;
+    font-size: 1.5em;
+}
+
+label {
+    width: 150px;
+    display: inline-block;
+}
+
+p {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+/* Links */
+a {
+    color: #000000;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #000000;
+    text-decoration: underline;
+}
+
+/* Lister */
+ul, ol {
+    margin-bottom: 20px;
+    padding-left: 30px;
+}
+
+/* Sektioner */
+.section {
+    background: white;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+}
+
+/* Knapper */
+.btn {
+    display: inline-block;
+    background: #000000;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background: #000000;
+    text-decoration: none;
+}
+
+
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+th {
+    text-align: left;
+}
+
+/* Formular-elementer */
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+

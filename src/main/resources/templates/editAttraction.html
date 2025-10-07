@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rediger attraktion</title>
+    <link th:href="@{/main.css}" rel="stylesheet">
+</head>
+<body>
+<h1>Ændring af informationer</h1>
+
+<!-- Form til at opdatere attraktionen -->
+<form th:action="@{|/attractions/${attraction.name}/update|}" th:object="${attraction}" method="post">
+
+    <!-- Navn -->
+    <label for="name">Navn:</label>
+    <input type="text" id="name" th:field="*{name}" required>
+    <br><br>
+
+    <!-- Beskrivelse -->
+    <label for="description">Beskrivelse:</label>
+    <textarea id="description" th:field="*{description}" required></textarea>
+    <br><br>
+
+    <!-- Byer (dropdown) -->
+    <label for="city">By:</label>
+    <select id="city" th:field="*{city}">
+        <option th:each="city : ${cities}"
+                th:value="${city}"
+                th:text="${city}">
+        </option>
+    </select>
+    <br><br>
+
+    <!-- Tags (checkboxes) -->
+    <fieldset>
+        <legend>Vælg tags:</legend>
+        <label th:each="tag : ${tags}">
+            <input type="checkbox"
+                   th:value="${tag}"
+                   th:field="*{tags}">
+            <span th:text="${tag}"></span>
+        </label>
+    </fieldset>
+    <br>
+
+    <!-- Submit -->
+    <button type="submit">Gem ændringer</button>
+</form>
+
+<!-- Tilbage til listen -->
+<p><a th:href="@{/attractions}">Tilbage til oversigten</a></p>
+
+</body>
+</html>
+

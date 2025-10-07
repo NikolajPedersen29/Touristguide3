@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tags for Attraction</title>
+    <link th:href="@{/main.css}" rel="stylesheet">
+</head>
+<body>
+
+<h1 th:text="'Tags for: ' + ${attraction.name}"></h1>
+
+<ul th:if="${tags.isEmpty()}">
+    <li>Ingen tags fundet for denne attraktion.</li>
+</ul>
+
+<ul th:each="tag : ${tags}">
+    <li th:text="${tag}"></li>
+</ul>
+
+<a th:href="@{/attractions}">Tilbage til liste</a>
+
+</body>
+</html>
