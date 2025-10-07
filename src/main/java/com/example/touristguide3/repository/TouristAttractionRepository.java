@@ -1,8 +1,8 @@
 package com.example.touristguide3.repository;
 
 import com.example.touristguide3.models.City;
-import com.example.touristguide3.models.Tags;
 import com.example.touristguide3.models.TouristAttraction;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -25,6 +25,7 @@ public class TouristAttractionRepository {
         @Override
         public TouristAttraction mapRow(ResultSet rs, int rowNum) throws SQLException {
             TouristAttraction attraction = new TouristAttraction();
+            attraction.setId(rs.getLong("id"));
             attraction.setName(rs.getString("name"));
             attraction.setDescription(rs.getString("description"));
             attraction.setCity(City.valueOf(rs.getString("city")));
@@ -52,7 +53,11 @@ public class TouristAttractionRepository {
     // --- READ (find by name) ---
     public TouristAttraction findByName(String name) {
         String sql = "SELECT * FROM tourist_attraction WHERE LOWER(name) = LOWER(?)";
-        return jdbcTemplate.queryForObject(sql, attractionMapper, name);
+        try {
+            return jdbcTemplate.queryForObject(sql, attractionMapper, name);
+        } catch (EmptyResultDataAccessException e) {
+            return null; // Returner null hvis ikke fundet
+        }
     }
 
     // --- UPDATE ---
