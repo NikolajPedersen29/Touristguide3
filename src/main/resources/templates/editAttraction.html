@@ -1,27 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Rediger attraktion</title>
     <link th:href="@{/main.css}" rel="stylesheet">
 </head>
 <body>
-<h1>Ændring af informationer</h1>
+<h1>Rediger attraktion</h1>
 
-<!-- Form til at opdatere attraktionen -->
-<form th:action="@{|/attractions/${attraction.name}/update|}" th:object="${attraction}" method="post">
-
-    <!-- Navn -->
+<form th:action="@{/attractions/update/{id}(id=${attraction.id})}" th:object="${attraction}" method="post">
     <label for="name">Navn:</label>
-    <input type="text" id="name" th:field="*{name}" required>
-    <br><br>
+    <input type="text" id="name" th:field="*{name}" required><br>
 
-    <!-- Beskrivelse -->
     <label for="description">Beskrivelse:</label>
-    <textarea id="description" th:field="*{description}" required></textarea>
-    <br><br>
+    <input type="text" id="description" th:field="*{description}" required><br>
 
-    <!-- Byer (dropdown) -->
     <label for="city">By:</label>
     <select id="city" th:field="*{city}">
         <option th:each="city : ${cities}"
@@ -29,9 +22,7 @@
                 th:text="${city}">
         </option>
     </select>
-    <br><br>
 
-    <!-- Tags (checkboxes) -->
     <fieldset>
         <legend>Vælg tags:</legend>
         <label th:each="tag : ${tags}">
@@ -41,15 +32,10 @@
             <span th:text="${tag}"></span>
         </label>
     </fieldset>
-    <br>
 
-    <!-- Submit -->
-    <button type="submit">Gem ændringer</button>
+    <button type="submit">Opdater</button>
 </form>
 
-<!-- Tilbage til listen -->
-<p><a th:href="@{/attractions}">Tilbage til oversigten</a></p>
-
+<a th:href="@{/attractions}">⬅ Tilbage</a>
 </body>
 </html>
-

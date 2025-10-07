@@ -2,43 +2,42 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Turistattraktioner</title>
+    <title>Attraktionsliste</title>
     <link th:href="@{/main.css}" rel="stylesheet">
 </head>
 <body>
-<!-- h1 er titlen --->
-<h1>Turistattraktioner</h1>
+<h1>Tourist Attractions</h1>
 
-<!-- <Table> laver en tabel til at vise attraktionerne --->
+<a th:href="@{/attractions/add}">Tilføj ny attraktion</a>
+
 <table border="1">
+    <thead>
     <tr>
         <th>Navn</th>
         <th>Beskrivelse</th>
         <th>By</th>
-        <th>Handlinger</th>
+        <th>Handling</th>
     </tr>
-
-    <!-- Thymeleaf laver for each loop for hver attraktion --->
+    </thead>
+    <tbody>
     <tr th:each="attraction : ${attractions}">
         <td th:text="${attraction.name}"></td>
         <td th:text="${attraction.description}"></td>
         <td th:text="${attraction.city}"></td>
         <td>
+            <!-- Se tags knap -->
+            <a th:href="@{/attractions/{id}/tags(id=${attraction.id})}">Se Tags</a>
 
-            <!-- Nedenunder bliver der lavet et link til detaljer om attraktionen --->
-            <a th:href="@{/attractions/{name}(name=${attraction.name})}">Vis</a> |
-            <a th:href="@{/attractions/{name}/edit(name=${attraction.name})}">Opdater</a> |
-            <form th:action="@{/attractions/delete/{name}(name=${attraction.name})}" method="post" style="display:inline;">
+            <!-- Rediger link med ID -->
+            <a th:href="@{/attractions/edit/{id}(id=${attraction.id})}">Rediger</a>
+
+            <!-- Slet form med ID -->
+            <form th:action="@{/attractions/delete/{id}(id=${attraction.id})}" method="post" style="display: inline;">
                 <button type="submit">Slet</button>
-            </form> |
-            <a th:href="@{/attractions/{name}/tags(name=${attraction.name})}">Tags</a>
+            </form>
         </td>
     </tr>
+    </tbody>
 </table>
-
-<br>
-
-<!-- Her er selfølgelig et link til en ny side hvor man kan tilføje en attraktion --->
-<a th:href="@{/attractions/add}">Tilføj ny attraktion</a>
 </body>
 </html>

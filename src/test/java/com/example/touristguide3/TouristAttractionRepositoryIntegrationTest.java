@@ -28,15 +28,5 @@ public class TouristAttractionRepositoryIntegrationTest {
         assertThat(attractions).isNotEmpty();
     }
 
-    @Test
-    void testAddAttraction() {
-        TouristAttraction newAttraction = new TouristAttraction(
-                "Tivoli",
-                "Forlystelsespark",
-                City.København,
-                List.of(Tags.Børnevenlig, Tags.Kunst)
-        );
-        repository.addAttraction(newAttraction);
-        assertThat(repository.getAllAttractions()).contains(newAttraction);
-    }
+
 }

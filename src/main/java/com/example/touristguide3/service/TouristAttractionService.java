@@ -17,9 +17,25 @@ public class TouristAttractionService {
         this.repository = repository;
     }
 
-    // --- CREATE ---
     public void addAttraction(TouristAttraction attraction) {
+        // Først tilføj attraktionen
         repository.addAttraction(attraction);
+
+        // Find ID for den nye attraktion
+        Long attractionId = repository.findIdByName(attraction.getName());
+
+        // Tilføj tags
+        if (attraction.getTags() != null && !attraction.getTags().isEmpty()) {
+            repository.addTagsToAttraction(attractionId, attraction.getTags());
+        }
+    }
+
+    // Tilføj metode til at hente tags
+    public TouristAttraction findByIdWithTags(Long id) {
+        TouristAttraction attraction = repository.findById(id);
+        List<Tags> tags = repository.getTagsForAttraction(id);
+        attraction.setTags(tags);
+        return attraction;
     }
 
     // --- READ (alle) ---
@@ -27,9 +43,9 @@ public class TouristAttractionService {
         return repository.getAllAttractions();
     }
 
-    // --- READ (find by name) ---
-    public TouristAttraction findByName(String name) {
-        return repository.findByName(name);
+    // --- READ (find by id) ---
+    public TouristAttraction findById(Long id) {
+        return repository.findById(id);
     }
 
     // --- UPDATE ---
@@ -40,16 +56,5 @@ public class TouristAttractionService {
     // --- DELETE ---
     public void deleteAttraction(Long id) {
         repository.deleteAttraction(id);
-    }
-    // --- DELETE by name ---
-    public void deleteAttraction(String name) {
-        TouristAttraction attraction = repository.findByName(name);
-        repository.deleteAttraction(attraction.getId());
-    }
-
-    // --- UPDATE by name ---
-    public void updateAttraction(String name, TouristAttraction updated) {
-        TouristAttraction existing = repository.findByName(name);
-        repository.updateAttraction(existing.getId(), updated);
     }
 }

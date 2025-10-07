@@ -1,7 +1,7 @@
 package com.example.touristguide3.models;
 
 public enum City {
-    København,
+    KØBENHAVN,
     Odense,
     Århus,
     Ålborg,
