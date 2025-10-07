@@ -19,7 +19,6 @@ public class TouristAttractionController {
         this.service = service;
     }
 
-
     // Find alle attraktioner
     @GetMapping
     public String getAllAttractions(Model model) {
@@ -31,20 +30,15 @@ public class TouristAttractionController {
     // Find bestemt attraktion
     @GetMapping("{name}")
     public String getAttractionByName(@PathVariable String name, Model model) {
-        TouristAttraction touristAttraction = service.getAttractionByName(name);
-        model.addAttribute("attractions", touristAttraction);
+        TouristAttraction touristAttraction = service.findByName(name);
+        model.addAttribute("attraction", touristAttraction);
         return "attraction";
     }
 
     // Attraction tags side
     @GetMapping("{name}/tags")
     public String showAttractionTags(@PathVariable String name, Model model) {
-        TouristAttraction attraction = service.getAttractionByName(name);
-
-        if (attraction == null) {
-            throw new IllegalArgumentException("Attraktion ikke fundet.");
-        }
-
+        TouristAttraction attraction = service.findByName(name);
         model.addAttribute("attraction", attraction);
         model.addAttribute("tags", attraction.getTags());
         return "attractionTag";
@@ -67,22 +61,27 @@ public class TouristAttractionController {
 
     @GetMapping("/{name}/edit")
     public String showEditForm(@PathVariable String name, Model model) {
-        model.addAttribute("attraction", service.getAttractionByName(name));
+        TouristAttraction attraction = service.findByName(name);
+        model.addAttribute("attraction", attraction);
         model.addAttribute("cities", City.values());
         model.addAttribute("tags", Tags.values());
         return "editAttraction";
     }
 
     @PostMapping("/{name}/update")
-    public String updateAttraction(@PathVariable String name,@ModelAttribute TouristAttraction updatedAttraction) {
-        service.updateAttraction(name,updatedAttraction.getName(),updatedAttraction.getDescription(),updatedAttraction.getCity(),updatedAttraction.getTags());
+    public String updateAttraction(@PathVariable String name, @ModelAttribute TouristAttraction updatedAttraction) {
+        // Find ID først, så brug det til update
+        TouristAttraction existing = service.findByName(name);
+        service.updateAttraction(existing.getId(), updatedAttraction);
         return "redirect:/attractions";
     }
 
-    // DELETE
+    // DELETE - ændret til at bruge ID
     @PostMapping("/delete/{name}")
     public String deleteAttraction(@PathVariable String name) {
-        service.deleteAttraction(name);
+        // Find ID først, så brug det til delete
+        TouristAttraction attraction = service.findByName(name);
+        service.deleteAttraction(attraction.getId());
         return "redirect:/attractions";
     }
 }

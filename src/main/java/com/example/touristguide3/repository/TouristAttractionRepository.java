@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -20,63 +20,54 @@ public class TouristAttractionRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<TouristAttraction> rowMapper = (ResultSet rs, int rowNum) -> {
-        TouristAttraction attraction = new TouristAttraction();
-        attraction.setName(rs.getString("name"));
-        attraction.setDescription(rs.getString("description"));
-        attraction.setCity(City.valueOf(rs.getString("city")));
-        attraction.setTags(List.of(Tags.valueOf(rs.getString("tags"))));
-        return attraction;
+    // --- RowMapper: sådan oversætter vi SQL resultater til vores model ---
+    private final RowMapper<TouristAttraction> attractionMapper = new RowMapper<>() {
+        @Override
+        public TouristAttraction mapRow(ResultSet rs, int rowNum) throws SQLException {
+            TouristAttraction attraction = new TouristAttraction();
+            attraction.setName(rs.getString("name"));
+            attraction.setDescription(rs.getString("description"));
+            attraction.setCity(City.valueOf(rs.getString("city")));
+            // Tags håndteres særskilt (vi henter dem fra join-tabellen)
+            return attraction;
+        }
     };
 
+    // --- CREATE ---
+    public void addAttraction(TouristAttraction attraction) {
+        String sql = "INSERT INTO tourist_attraction (name, description, city) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql,
+                attraction.getName(),
+                attraction.getDescription(),
+                attraction.getCity().name());
+        // tags skal tilføjes via attraction_tags-tabellen
+    }
+
+    // --- READ (alle) ---
     public List<TouristAttraction> getAllAttractions() {
-        String sql = "SELECT * FROM tourist_attractions";
-        return jdbcTemplate.query(sql, rowMapper);
+        String sql = "SELECT * FROM tourist_attraction";
+        return jdbcTemplate.query(sql, attractionMapper);
     }
 
-
-    // Create
-    public TouristAttraction addAttraction(TouristAttraction attraction) {
-        attractions.add(attraction);
-        return attraction;
-    }
-
-    // READ
+    // --- READ (find by name) ---
     public TouristAttraction findByName(String name) {
-        for (TouristAttraction attraction : attractions) {
-            if (attraction.getName().equalsIgnoreCase(name)) {
-                return attraction;
-            }
-        }
-        return null;
+        String sql = "SELECT * FROM tourist_attraction WHERE LOWER(name) = LOWER(?)";
+        return jdbcTemplate.queryForObject(sql, attractionMapper, name);
     }
 
-    // Update
-    public TouristAttraction updateAttraction(String oldName, String newName, String description, City city, List<Tags> tags) {
-        for (TouristAttraction attraction : attractions) {
-            if (attraction.getName().equalsIgnoreCase(oldName)) {
-                attraction.setName(newName);
-                attraction.setDescription(description);
-                attraction.setCity(city);
-                attraction.setTags(tags);
-                return attraction;
-            }
-        }
-        return null;
+    // --- UPDATE ---
+    public void updateAttraction(Long id, TouristAttraction updated) {
+        String sql = "UPDATE tourist_attraction SET name = ?, description = ?, city = ? WHERE id = ?";
+        jdbcTemplate.update(sql,
+                updated.getName(),
+                updated.getDescription(),
+                updated.getCity().name(),
+                id);
     }
 
-
-    //Delete
-    public TouristAttraction deleteAttraction(String name) {
-        for (TouristAttraction attraction : attractions) {
-            if (attraction.getName().equalsIgnoreCase(name)) {
-                attractions.remove(attraction);
-                return attraction;
-            }
-        }
-        return null;
+    // --- DELETE ---
+    public void deleteAttraction(Long id) {
+        String sql = "DELETE FROM tourist_attraction WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
-
-
 }
-

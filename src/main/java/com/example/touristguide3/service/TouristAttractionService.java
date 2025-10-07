@@ -10,38 +10,46 @@ import java.util.List;
 
 @Service
 public class TouristAttractionService {
+
     private final TouristAttractionRepository repository;
 
     public TouristAttractionService(TouristAttractionRepository repository) {
         this.repository = repository;
     }
 
-    // Finder alle attraktioner
+    // --- CREATE ---
+    public void addAttraction(TouristAttraction attraction) {
+        repository.addAttraction(attraction);
+    }
+
+    // --- READ (alle) ---
     public List<TouristAttraction> getAllAttractions() {
         return repository.getAllAttractions();
     }
 
-    //Finder bestemt attraktion
-    public TouristAttraction getAttractionByName(String name) {
+    // --- READ (find by name) ---
+    public TouristAttraction findByName(String name) {
         return repository.findByName(name);
     }
 
-    // Add Attraction
-    public TouristAttraction addAttraction(TouristAttraction attraction) {
-        return repository.addAttraction(attraction);
+    // --- UPDATE ---
+    public void updateAttraction(Long id, TouristAttraction updated) {
+        repository.updateAttraction(id, updated);
     }
 
-    // delete message metode
-    public TouristAttraction deleteAttraction(String name) {
-        return repository.deleteAttraction(name);
+    // --- DELETE ---
+    public void deleteAttraction(Long id) {
+        repository.deleteAttraction(id);
+    }
+    // --- DELETE by name ---
+    public void deleteAttraction(String name) {
+        TouristAttraction attraction = repository.findByName(name);
+        repository.deleteAttraction(attraction.getId());
     }
 
-    // Update
-    public TouristAttraction updateAttraction(String oldName, String newName, String description, City city, List<Tags> tags) {
-        return repository.updateAttraction(oldName, newName, description, city, tags);
+    // --- UPDATE by name ---
+    public void updateAttraction(String name, TouristAttraction updated) {
+        TouristAttraction existing = repository.findByName(name);
+        repository.updateAttraction(existing.getId(), updated);
     }
-
-
 }
-
-
