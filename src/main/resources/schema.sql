@@ -16,3 +16,5 @@ attraction_id INT,
 tag VARCHAR(50),
 PRIMARY KEY (attraction_id, tag),
 FOREIGN KEY (attraction_id) REFERENCES tourist_attraction(id) ON DELETE CASCADE);
+
+
