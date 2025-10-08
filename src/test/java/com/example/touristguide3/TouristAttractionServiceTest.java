@@ -70,14 +70,14 @@ class TouristAttractionServiceTest {
                 City.København,
                 List.of(Tags.BØRNEVENLIG, Tags.KUNST)
         );
-        when(repository.findIdByName("Tivoli")).thenReturn(attraction.getId());
+        when(repository.findByName("Tivoli")).thenReturn(attraction);
 
-        TouristAttraction result = service.findById(repository.findIdByName("Tivoli"));
+        TouristAttraction result = service.findByName("Tivoli");
 
         assertNotNull(result);
         assertEquals("Tivoli", result.getName());
         assertEquals(City.København, result.getCity());
-        verify(repository, times(1)).findIdByName("Tivoli");
+        verify(repository, times(1)).findByName("Tivoli");
     }
 
     // --- UPDATE BY ID ---

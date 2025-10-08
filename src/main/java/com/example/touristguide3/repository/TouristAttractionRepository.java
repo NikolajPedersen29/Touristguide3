@@ -49,6 +49,12 @@ public class TouristAttractionRepository {
         }
     }
 
+    // --- READ (find by name) ---
+    public TouristAttraction findByName(String name) {
+        String sql = "SELECT * FROM tourist_attraction WHERE name = ?";
+        return jdbcTemplate.queryForObject(sql, attractionMapper, name);
+    }
+
     // --- CREATE ---
     public void addAttraction(TouristAttraction attraction) {
         String sql = "INSERT INTO tourist_attraction (name, description, city) VALUES (?, ?, ?)";

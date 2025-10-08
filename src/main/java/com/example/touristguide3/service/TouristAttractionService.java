@@ -48,6 +48,11 @@ public class TouristAttractionService {
         return repository.findById(id);
     }
 
+    // --- READ (find by name) ---
+    public TouristAttraction findByName(String name) {
+        return repository.findByName(name);
+    }
+
     // --- UPDATE ---
     public void updateAttraction(Long id, TouristAttraction updated) {
         repository.updateAttraction(id, updated);
